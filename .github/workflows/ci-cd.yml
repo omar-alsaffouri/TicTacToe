@@ -2,9 +2,9 @@ name: Java CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "feature/**" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "feature/**" ]
 
 jobs:
   build:
@@ -13,18 +13,21 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Java JDK einrichten
+      - name: Java JDK 17 einrichten
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Code direkt kompilieren
+      - name: Kompiliere alles direkt ohne Pfadprobleme
         run: |
           mkdir -p target/classes
-          find . -name "*.java" ! -path "*/test/*" > sources.txt
+          find . -name "*.java" > sources.txt
           javac -d target/classes @sources.txt
-          jar cvfe target/TicTacToe-Game.jar main.java.org.example.TicTacToe -C target/classes .
+
+      - name: Baue finale JAR-Datei
+        run: |
+          jar cvf target/TicTacToe-Game.jar -C target/classes .
 
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
