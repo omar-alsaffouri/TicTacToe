@@ -5,78 +5,57 @@ public class Board {
 
     public Board() {
         cells = new char[3][3];
-        initializeBoard();
+        clear();
     }
 
-    private void initializeBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                cells[i][j] = ' ';
-            }
-        }
+    public boolean isCellEmpty(int x, int y) {
+        return cells[x][y] == ' ';
     }
 
-    public boolean placeSymbol(int row, int col, char symbol) {
-        if (row < 0 || row > 2 || col < 0 || col > 2) {
+    public boolean place(int x, int y, char marker) {
+        if (x < 0 || x > 2 || y < 0 || y > 2) {
             return false;
         }
 
-        if (cells[row][col] == ' ') {
-            cells[row][col] = symbol;
-            return true;
+        if (!isCellEmpty(x, y)) {
+            return false;
         }
 
-        return false;
+        cells[x][y] = marker;
+        return true;
     }
 
-    public boolean hasWon(char symbol) {
-        for (int i = 0; i < 3; i++) {
-            if (cells[i][0] == symbol && cells[i][1] == symbol && cells[i][2] == symbol) {
-                return true;
-            }
-
-            if (cells[0][i] == symbol && cells[1][i] == symbol && cells[2][i] == symbol) {
-                return true;
-            }
-        }
-
-        if (cells[0][0] == symbol && cells[1][1] == symbol && cells[2][2] == symbol) {
-            return true;
-        }
-
-        if (cells[0][2] == symbol && cells[1][1] == symbol && cells[2][0] == symbol) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean isDraw() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (cells[i][j] == ' ') {
+    public boolean isFull() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                if (cells[x][y] == ' ') {
                     return false;
                 }
             }
         }
-
         return true;
+    }
+
+    public void clear() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                cells[x][y] = ' ';
+            }
+        }
+    }
+
+    public void print() {
+        System.out.println("-------");
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                System.out.print("|" + cells[x][y]);
+            }
+            System.out.println("|");
+            System.out.println("-------");
+        }
     }
 
     public char[][] getCells() {
         return cells;
-    }
-
-    public void printBoard() {
-        System.out.println("-------");
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print("|" + cells[i][j]);
-            }
-
-            System.out.println("|");
-            System.out.println("-------");
-        }
     }
 }
