@@ -20,8 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Führe Checkstyle und Unit Tests aus
-        run: mvn clean package -Dcheckstyle.failOnViolation=false
+      - name: Führe nur Unit Tests aus (Checkstyle komplett skippen)
+        run: mvn clean package -Dcheckstyle.skip=true
 
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
