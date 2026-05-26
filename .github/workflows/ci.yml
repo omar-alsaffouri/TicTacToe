@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Code auschecken
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Kompilieren und JAR bauen
         run: mvn clean package -DskipTests
 
       - name: JAR bereitstellen
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: TicTacToe-Game-JAR
           path: target/*.jar
