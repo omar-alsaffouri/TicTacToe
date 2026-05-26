@@ -19,8 +19,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Kompilieren und JAR bauen
-        run: mvn clean package -DskipTests
+      - name: Code direkt kompilieren
+        run: |
+          mkdir -p target/classes
+          find . -name "*.java" ! -path "*/test/*" > sources.txt
+          javac -d target/classes @sources.txt
+          jar cvfe target/TicTacToe-Game.jar main.java.org.example.TicTacToe -C target/classes .
 
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
