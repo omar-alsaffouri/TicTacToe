@@ -13,18 +13,15 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Java JDK einrichten
+      - name: Java JDK 17 einrichten
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven
 
-      - name: Code direkt kompilieren
-        run: |
-          mkdir -p target/classes
-          find . -name "*.java" ! -path "*/test/*" > sources.txt
-          javac -d target/classes @sources.txt
-          jar cvfe target/TicTacToe-Game.jar main.java.org.example.TicTacToe -C target/classes .
+      - name: Führe Checkstyle, Tests und Maven Build aus
+        run: mvn clean package
 
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
