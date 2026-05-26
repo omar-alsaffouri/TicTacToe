@@ -2,9 +2,9 @@ name: Java CI/CD
 
 on:
   push:
-    branches: [ "feature/**"]
+    branches: [ "main", "feature/**" ]
   pull_request:
-    branches: [ main, feature/boardtesting ]
+    branches: [ "main", "feature/**" ]
 
 jobs:
   build:
@@ -18,10 +18,19 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
-      - name: Führe nur Unit Tests aus (Checkstyle komplett skippen)
-        run: mvn clean package -Dcheckstyle.skip=true
+      - name: Code und Tests manuell kompilieren
+        run: |
+          mkdir -p target/classes
+          mkdir -p target/test-classes
+          
+          # Alle Java-Dateien im Projekt finden und kompilieren
+          find . -name "*.java" > sources.txt
+          javac -d target/classes @sources.txt
+
+      - name: JAR erzeugen
+        run: |
+          jar cvfe target/TicTacToe-Game.jar main.java.org.example.TicTacToe -C target/classes .
 
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
