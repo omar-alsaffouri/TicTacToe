@@ -18,13 +18,13 @@ jobs:
         with:
           java-version: '26'
           distribution: 'temurin'
-          cache: 'maven' # Beschleunigt zukünftige Builds
+          cache: 'maven'
 
-      # REPARIERT: Nutzt Maven zum Testen und Bauen (erstellt die JAR in target/)
+      # Führt Maven direkt im Hauptverzeichnis aus
       - name: Projekt mit Maven bauen und testen
         run: mvn clean package
 
-      # Falls die JAR einen anderen Namen hat, benennen wir sie um, damit dein nächster Schritt funktioniert
+      # Bereitet die fertige JAR-Datei für den Download vor
       - name: JAR für Artefakt vorbereiten
         run: |
           mkdir -p target/final
