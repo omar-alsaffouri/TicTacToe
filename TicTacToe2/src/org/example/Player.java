@@ -1,4 +1,4 @@
-package com.gamestudio.tictactoe;
+package org.example;
 
 public class Player {
     private char marker;
