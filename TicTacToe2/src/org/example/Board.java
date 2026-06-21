@@ -1,4 +1,4 @@
-package com.gamestudio.tictactoe;
+package org.example;
 
 public class Board {
     private char[][] cells;

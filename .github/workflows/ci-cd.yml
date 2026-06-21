@@ -13,24 +13,28 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Java JDK 17 einrichten
+      - name: Java JDK 26 einrichten
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '26'
           distribution: 'temurin'
+          cache: 'maven'
 
-      - name: Kompiliere alles direkt ohne Pfadprobleme
+      # Führt Tests (Surefire) und den Style-Check (Checkstyle) im Unterordner aus
+      - name: Projekt mit Maven prüfen, testen und bauen
+        run: mvn clean package
+        working-directory: TicTacToe2
+
+      # Bereitet die fertige JAR-Datei vor
+      - name: JAR für Artefakt vorbereiten
         run: |
-          mkdir -p target/classes
-          find . -name "*.java" > sources.txt
-          javac -d target/classes @sources.txt
+          mkdir -p target/final
+          cp target/*.jar target/final/TicTacToe-Game.jar
+        working-directory: TicTacToe2
 
-      - name: Baue finale JAR-Datei
-        run: |
-          jar cvf target/TicTacToe-Game.jar -C target/classes .
-
+      # Macht die JAR-Datei auf GitHub als Download verfügbar
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: TicTacToe-Game-JAR
-          path: target/*.jar
+          path: TicTacToe2/target/final/TicTacToe-Game.jar
