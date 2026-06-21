@@ -20,18 +20,19 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      # Springt in TicTacToe2, um das Projekt zu bauen
-      - name: Projekt mit Maven bauen und testen
+      # Führt Tests (Surefire) und den Style-Check (Checkstyle) im Unterordner aus
+      - name: Projekt mit Maven prüfen, testen und bauen
         run: mvn clean package
         working-directory: TicTacToe2
 
-      # Bereitet die JAR-Datei im korrekten Unterordner vor
+      # Bereitet die fertige JAR-Datei vor
       - name: JAR für Artefakt vorbereiten
         run: |
           mkdir -p target/final
           cp target/*.jar target/final/TicTacToe-Game.jar
         working-directory: TicTacToe2
 
+      # Macht die JAR-Datei auf GitHub als Download verfügbar
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
         with:
