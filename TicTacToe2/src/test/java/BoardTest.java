@@ -1,6 +1,6 @@
 package test.java;
 
-import com.gamestudio.tictactoe.Board;
+import org.example.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
