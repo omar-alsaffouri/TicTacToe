@@ -16,21 +16,22 @@ jobs:
       - name: Java JDK 26 einrichten
         uses: actions/setup-java@v4
         with:
-          java-version: '26' # Auf deine lokale Version angepasst!
+          java-version: '26'
           distribution: 'temurin'
+          cache: 'maven' # Beschleunigt zukünftige Builds
 
-      - name: Kompiliere alles direkt ohne Pfadprobleme
-        run: |
-          mkdir -p target/classes
-          find . -name "*.java" > sources.txt
-          javac -d target/classes @sources.txt
+      # REPARIERT: Nutzt Maven zum Testen und Bauen (erstellt die JAR in target/)
+      - name: Projekt mit Maven bauen und testen
+        run: mvn clean package
 
-      - name: Baue finale JAR-Datei
+      # Falls die JAR einen anderen Namen hat, benennen wir sie um, damit dein nächster Schritt funktioniert
+      - name: JAR für Artefakt vorbereiten
         run: |
-          jar cvf target/TicTacToe-Game.jar -C target/classes .
+          mkdir -p target/final
+          cp target/*.jar target/final/TicTacToe-Game.jar
 
       - name: JAR bereitstellen
         uses: actions/upload-artifact@v4
         with:
           name: TicTacToe-Game-JAR
-          path: target/*.jar
+          path: target/final/TicTacToe-Game.jar
