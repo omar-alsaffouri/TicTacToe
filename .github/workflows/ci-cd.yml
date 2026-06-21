@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Code auschecken
         uses: actions/checkout@v4
@@ -20,20 +21,22 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      # Führt Tests (Surefire) und den Style-Check (Checkstyle) im Unterordner aus
+      # Tests, Checkstyle und Build laufen auf ALLEN Branches
       - name: Projekt mit Maven prüfen, testen und bauen
         run: mvn clean package
         working-directory: TicTacToe2
 
-      # Bereitet die fertige JAR-Datei vor
+      # Nur auf MAIN die JAR vorbereiten
       - name: JAR für Artefakt vorbereiten
+        if: github.ref == 'refs/heads/main'
         run: |
           mkdir -p target/final
           cp target/*.jar target/final/TicTacToe-Game.jar
         working-directory: TicTacToe2
 
-      # Macht die JAR-Datei auf GitHub als Download verfügbar
+      # Nur auf MAIN die JAR hochladen
       - name: JAR bereitstellen
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: TicTacToe-Game-JAR
