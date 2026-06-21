@@ -13,10 +13,10 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Java JDK 17 einrichten
+      - name: Java JDK 26 einrichten
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '26' # Auf deine lokale Version angepasst!
           distribution: 'temurin'
 
       - name: Kompiliere alles direkt ohne Pfadprobleme
