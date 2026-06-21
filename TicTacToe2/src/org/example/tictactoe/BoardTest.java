@@ -1,11 +1,10 @@
-package test.java;
+package org.example.tictactoe;  // Change from: package test.java;
 
 import org.example.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-public class Boardtest {
+public class BoardTest {
 
     private Board board;
 
